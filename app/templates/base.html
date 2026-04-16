@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>讀書筆記本</title>
+    <!-- CSS 會在這裡引入 -->
+</head>
+<body>
+    <header>
+        <!-- 導覽列 (Navbar) / 登入、登出連結 -->
+    </header>
+    
+    <!-- 顯示 Flash Messages (錯誤或成功提示) 預留區 -->
+    <div id="flash-messages"></div>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2026 讀書筆記本. All rights reserved.</p>
+    </footer>
+</body>
+</html>
