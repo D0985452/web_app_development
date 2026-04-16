@@ -1,5 +1,31 @@
 {% extends "base.html" %}
 
 {% block content %}
-<!-- 註冊新帳號表單 -->
+<div class="row justify-content-center align-items-center" style="min-height: 60vh;">
+    <div class="col-md-6 col-lg-5">
+        <div class="card glass-card p-4 p-md-5">
+            <div class="text-center mb-4">
+                <h2 class="fw-bold mb-2" style="background: linear-gradient(90deg, #34d399, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">免費註冊</h2>
+                <p class="text-muted" style="color: #94a3b8 !important;">踏出發布第一篇筆記的第一步</p>
+            </div>
+            
+            <form action="{{ url_for('auth.register') }}" method="POST">
+                <div class="mb-4">
+                    <label for="username" class="form-label ms-1" style="color: #cbd5e1;">你想取什麼帳號名稱？ (必填)</label>
+                    <input type="text" class="form-control form-control-lg px-3" id="username" name="username" required placeholder="例如：BookLover99">
+                </div>
+                <div class="mb-5">
+                    <label for="password" class="form-label ms-1" style="color: #cbd5e1;">設定密碼 (必填)</label>
+                    <input type="password" class="form-control form-control-lg px-3" id="password" name="password" required placeholder="強烈建議具備英文與數字">
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg w-100 rounded-3 mb-4 py-3" style="background: linear-gradient(90deg, #10b981, #3b82f6);">註冊帳號</button>
+            </form>
+            
+            <div class="text-center mt-2 border-top pt-4 border-secondary border-opacity-25">
+                <span class="text-muted" style="color: #94a3b8 !important;">已經擁有帳號了嗎？</span> 
+                <a href="{{ url_for('auth.login') }}" class="text-info text-decoration-none fw-semibold ms-1">登入</a>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

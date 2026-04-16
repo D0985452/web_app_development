@@ -1,5 +1,49 @@
 {% extends "base.html" %}
 
 {% block content %}
-<!-- 用於「新增」或「編輯」的心得共用表單，負責接收書名、作者、內文與評分 -->
+<div class="row justify-content-center mt-3">
+    <div class="col-lg-8">
+        <div class="card glass-card p-4 p-md-5">
+            <h2 class="fw-bold mb-4" style="background: linear-gradient(90deg, #f8fafc, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                {% if action == 'edit' %}編輯您的筆記{% else %}✍️ 留下閱讀筆記{% endif %}
+            </h2>
+            
+            <form action="{{ url_for('review.edit', id=review.id) if action == 'edit' else url_for('review.create') }}" method="POST">
+                <div class="row mb-4">
+                    <div class="col-md-9">
+                        <label for="book_title" class="form-label ms-1 fw-medium" style="color: #cbd5e1;">書名 <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control form-control-lg px-3" id="book_title" name="book_title" required value="{{ review.book_title if review else '' }}" placeholder="您閱讀的書名">
+                    </div>
+                    <div class="col-md-3 mt-4 mt-md-0">
+                        <label for="rating" class="form-label ms-1 fw-medium" style="color: #cbd5e1;">對這本書的評價 <span class="text-danger">*</span></label>
+                        <select class="form-select form-select-lg px-3 fw-bold" id="rating" name="rating" required style="color: #fbbf24;">
+                            <option value="5" {% if review and review.rating == 5 %}selected{% endif %}>★★★★★</option>
+                            <option value="4" {% if review and review.rating == 4 %}selected{% endif %}>★★★★☆</option>
+                            <option value="3" {% if review and review.rating == 3 or not review %}selected{% endif %}>★★★☆☆</option>
+                            <option value="2" {% if review and review.rating == 2 %}selected{% endif %}>★★☆☆☆</option>
+                            <option value="1" {% if review and review.rating == 1 %}selected{% endif %}>★☆☆☆☆</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="mb-4">
+                    <label for="book_author" class="form-label ms-1 fw-medium" style="color: #cbd5e1;">作者 (選填)</label>
+                    <input type="text" class="form-control form-control-lg px-3" id="book_author" name="book_author" value="{{ review.book_author if review else '' }}" placeholder="作者是哪位大師呢？">
+                </div>
+                
+                <div class="mb-5">
+                    <label for="content" class="form-label ms-1 fw-medium" style="color: #cbd5e1;">心得內文 <span class="text-danger">*</span></label>
+                    <textarea class="form-control px-3 py-3" id="content" name="content" rows="12" required placeholder="這本書帶給你什麼深刻的啟發？或者學到了什麼有趣的知識？" style="line-height: 1.6; font-size: 1.1rem;">{{ review.content if review else '' }}</textarea>
+                </div>
+                
+                <div class="d-flex justify-content-end gap-3 mt-2 border-top pt-4" style="border-color: rgba(255,255,255,0.08) !important;">
+                    <a href="{{ url_for('review.detail', id=review.id) if action == 'edit' else url_for('main.index') }}" class="btn btn-outline-light btn-lg px-4 rounded-pill">取消放棄</a>
+                    <button type="submit" class="btn btn-primary btn-lg px-5 rounded-pill shadow-sm">
+                        {% if action == 'edit' %}儲存變更{% else %}確認發布{% endif %}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock %}

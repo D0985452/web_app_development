@@ -1,5 +1,56 @@
 {% extends "base.html" %}
 
 {% block content %}
-<!-- 給管理員檢視的全站心得列表清單管理畫面 -->
+<div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom" style="border-color: rgba(255,255,255,0.1) !important;">
+    <h2 class="fw-bold text-warning mb-0 align-items-center d-flex">
+        <span>🛡️ 系統後台管理中心</span>
+    </h2>
+    <a href="{{ url_for('main.index') }}" class="btn btn-outline-light py-2 px-3 fw-medium">回到前台文章列表</a>
+</div>
+
+<div class="card glass-card p-4 overflow-hidden border-0">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0" style="color: #e2e8f0; --bs-table-bg: transparent; --bs-table-hover-bg: rgba(255,255,255,0.05);">
+            <thead style="border-bottom: 2px solid rgba(255,255,255,0.1);">
+                <tr>
+                    <th scope="col" style="color: #94a3b8; font-weight: 500;">文章 ID</th>
+                    <th scope="col" style="color: #94a3b8; font-weight: 500; width: 30%">書籍名稱</th>
+                    <th scope="col" style="color: #94a3b8; font-weight: 500;">發布者帳號</th>
+                    <th scope="col" style="color: #94a3b8; font-weight: 500;">給予評分</th>
+                    <th scope="col" style="color: #94a3b8; font-weight: 500;">發布時間</th>
+                    <th scope="col" class="text-end" style="color: #94a3b8; font-weight: 500;">強制操作</th>
+                </tr>
+            </thead>
+            <tbody style="border-top: none;">
+                {% for review in reviews %}
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                    <td class="text-muted fw-bold">#{{ review.id }}</td>
+                    <td class="fw-semibold">{{ review.book_title }}</td>
+                    <td>
+                        <span class="badge rounded-pill bg-info text-dark px-3 py-2 border border-info">{{ review.author_name }}</span>
+                    </td>
+                    <td style="color: #fbbf24; font-size: 1.1rem;">
+                        {% for i in range(review.rating) %}★{% endfor %}
+                    </td>
+                    <td class="text-muted small">{{ review.created_at[:16] }}</td>
+                    <td class="text-end">
+                        <div class="d-flex gap-2 justify-content-end">
+                            <a href="{{ url_for('review.detail', id=review.id) }}" class="btn btn-sm btn-outline-info rounded-3 px-3">查看</a>
+                            <form action="{{ url_for('review.delete', id=review.id) }}" method="POST" style="margin: 0;" onsubmit="return confirm('【警告】\n以管理員身分強制刪除文章。\n確定要刪除「{{ review.book_title }}」嗎？');">
+                                <button type="submit" class="btn btn-sm btn-danger rounded-3 px-3 border-0 bg-opacity-75">強制刪除</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="6" class="text-center py-5">
+                        <div class="text-muted fs-5">資料庫中目前沒有任何文章記錄。</div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
 {% endblock %}
